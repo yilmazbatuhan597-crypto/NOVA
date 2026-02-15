@@ -1,0 +1,36 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>NOVAAI</title>
+</head>
+<body>
+    <h1>Welcome to NOVAAI 🤖</h1>
+
+    <input id="userInput" placeholder="Ask NOVAAI..." />
+    <button onclick="askAI()">Send</button>
+
+    <p id="response"></p>
+
+<script>
+async function askAI() {
+    let input = document.getElementById("userInput").value;
+
+    let res = await fetch("https://api.openai.com/v1/chat/completions", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer YOUR_API_KEY"
+        },
+        body: JSON.stringify({
+            model: "gpt-4o-mini",
+            messages: [{role:"user", content: input}]
+        })
+    });
+
+    let data = await res.json();
+    document.getElementById("response").innerText =
+        data.choices[0].message.content;
+}
+</script>
+</body>
+</html>
